@@ -34,7 +34,7 @@ st_autorefresh(interval=2000, key="live_update")
 
 daten = lade_daten()
 
-st.title("⚡ Punkte-Duell")
+st.title("⚡ Bleona vs Arion")
 st.markdown("---")
 
 col1, col2 = st.columns(2)
@@ -53,7 +53,7 @@ def update_score(name, delta):
 
 # UI für Bleona mit Krone
 with col1:
-    st.subheader("Bleona 👑")
+    st.subheader("Bleona")
     st.markdown(f"## {daten['Bleona']}")
     if st.button("➕ 0.5", key="b_plus"): update_score("Bleona", 0.5)
     if st.button("➖ 0.5", key="b_minus"): update_score("Bleona", -0.5)
