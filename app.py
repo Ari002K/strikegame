@@ -18,7 +18,6 @@ def lade_daten():
     try:
         with open(DATA_FILE, "r") as f:
             daten = json.load(f)
-            # Fehlende Schlüssel ergänzen, falls alte Daten existieren
             for key in standard:
                 if key not in daten:
                     daten[key] = standard[key]
@@ -35,7 +34,7 @@ st_autorefresh(interval=2000, key="live_update")
 
 daten = lade_daten()
 
-st.title("⚡ Bleona vs Arion")
+st.title("⚡ Punkte-Duell")
 st.markdown("---")
 
 col1, col2 = st.columns(2)
@@ -52,9 +51,9 @@ def update_score(name, delta):
     speichere_daten(daten)
     st.rerun()
 
-# UI für Bleona
+# UI für Bleona mit Krone
 with col1:
-    st.subheader("Bleona")
+    st.subheader("Bleona 👑")
     st.markdown(f"## {daten['Bleona']}")
     if st.button("➕ 0.5", key="b_plus"): update_score("Bleona", 0.5)
     if st.button("➖ 0.5", key="b_minus"): update_score("Bleona", -0.5)
