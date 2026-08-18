@@ -28,7 +28,7 @@ st_autorefresh(interval=2000, key="live_update")
 
 daten = lade_daten()
 
-st.title("⚡ Punkte-Duell")
+st.title("⚡ Bleona vs Arion")
 st.markdown("---")
 
 col1, col2 = st.columns(2)
