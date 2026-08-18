@@ -6,13 +6,18 @@ from streamlit_autorefresh import st_autorefresh
 DATA_FILE = "punkte_daten.json"
 
 def lade_daten():
+    standard = {"Bleona": 0.0, "Arion": 0.0}
     if not os.path.exists(DATA_FILE):
-        return {"Bleona": 0.0, "Arion": 0.0}
+        return standard
     try:
         with open(DATA_FILE, "r") as f:
-            return json.load(f)
+            daten = json.load(f)
+            # Falls die alten Schlüssel drin sind, auf Standard zurücksetzen
+            if "Bleona" not in daten or "Arion" not in daten:
+                return standard
+            return daten
     except:
-        return {"Bleona": 0.0, "Arion": 0.0}
+        return standard
 
 def speichere_daten(daten):
     with open(DATA_FILE, "w") as f:
