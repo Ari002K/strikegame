@@ -6,15 +6,22 @@ from streamlit_autorefresh import st_autorefresh
 DATA_FILE = "punkte_daten.json"
 
 def lade_daten():
-    standard = {"Bleona": 0.0, "Arion": 0.0}
+    standard = {
+        "Bleona": 0.0, 
+        "Arion": 0.0,
+        "reward_3": "",
+        "reward_5": "",
+        "reward_10": ""
+    }
     if not os.path.exists(DATA_FILE):
         return standard
     try:
         with open(DATA_FILE, "r") as f:
             daten = json.load(f)
-            # Falls die alten Schlüssel drin sind, auf Standard zurücksetzen
-            if "Bleona" not in daten or "Arion" not in daten:
-                return standard
+            # Fehlende Schlüssel ergänzen, falls alte Daten existieren
+            for key in standard:
+                if key not in daten:
+                    daten[key] = standard[key]
             return daten
     except:
         return standard
@@ -60,6 +67,34 @@ with col2:
     if st.button("➖ 0.5", key="a_minus"): update_score("Arion", -0.5)
 
 st.markdown("---")
-if st.button("🔄 Reset"):
-    speichere_daten({"Bleona": 0.0, "Arion": 0.0})
+
+# --- BELOHNUNGEN BEREICH ---
+st.subheader("🎁 Belohnungen")
+
+def update_reward(key, text):
+    daten[key] = text
+    speichere_daten(daten)
+
+# Textfelder für Belohnungen
+r3 = st.text_input("Bei 3 Punkten:", value=daten["reward_3"], key="input_r3")
+if r3 != daten["reward_3"]:
+    update_reward("reward_3", r3)
+
+r5 = st.text_input("Bei 5 Punkten:", value=daten["reward_5"], key="input_r5")
+if r5 != daten["reward_5"]:
+    update_reward("reward_5", r5)
+
+r10 = st.text_input("Bei 10 Punkten:", value=daten["reward_10"], key="input_r10")
+if r10 != daten["reward_10"]:
+    update_reward("reward_10", r10)
+
+st.markdown("---")
+if st.button("🔄 Alles zurücksetzen (Reset)"):
+    speichere_daten({
+        "Bleona": 0.0, 
+        "Arion": 0.0,
+        "reward_3": "",
+        "reward_5": "",
+        "reward_10": ""
+    })
     st.rerun()
