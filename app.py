@@ -42,8 +42,8 @@ col1, col2 = st.columns(2)
 def update_score(name, delta):
     neuer_wert = daten[name] + delta
     
-    # Check: Max -2.9 limit
-    if neuer_wert < -2.9:
+    # Check: Nur Arion hat das Limit von -2.9
+    if name == "Arion" and neuer_wert < -2.9:
         st.error("Ku po do me shku")
         return
 
@@ -51,14 +51,14 @@ def update_score(name, delta):
     speichere_daten(daten)
     st.rerun()
 
-# UI für Bleona mit Krone
+# UI für Bleona mit Krone (kann unendlich ins Minus)
 with col1:
     st.subheader("Bleona")
     st.markdown(f"## {daten['Bleona']}")
     if st.button("➕ 0.5", key="b_plus"): update_score("Bleona", 0.5)
     if st.button("➖ 0.5", key="b_minus"): update_score("Bleona", -0.5)
 
-# UI für Arion
+# UI für Arion (mit -2.9 Limit & Spruch)
 with col2:
     st.subheader("Arion")
     st.markdown(f"## {daten['Arion']}")
@@ -74,7 +74,6 @@ def update_reward(key, text):
     daten[key] = text
     speichere_daten(daten)
 
-# Textfelder für Belohnungen
 r3 = st.text_input("Bei 3 Punkten:", value=daten["reward_3"], key="input_r3")
 if r3 != daten["reward_3"]:
     update_reward("reward_3", r3)
